@@ -1,0 +1,53 @@
+{
+  "name": "realtime_coin_tracker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "start": "concurrently \"npm run dev\" \"cd ../frontend && npm start\"",
+    "dev": "cross-env NODE_ENV=development nodemon",
+    "build": "rimraf ./build && tsc",
+    "prod": "npm run build && cross-env NODE_ENV=production node build/index.js",
+    "lint": "eslint . --ext .ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Elvis339/realtime_coin_tracker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Elvis339/realtime_coin_tracker/issues"
+  },
+  "homepage": "https://github.com/Elvis339/realtime_coin_tracker#readme",
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.11",
+    "@types/morgan": "^1.9.2",
+    "@types/node": "^14.14.28",
+    "@types/socket.io": "^2.1.13",
+    "@typescript-eslint/eslint-plugin": "^4.15.1",
+    "@typescript-eslint/parser": "^4.15.1",
+    "cross-env": "^7.0.3",
+    "eslint": "^7.20.0",
+    "eslint-config-prettier": "^7.2.0",
+    "nodemon": "^2.0.7",
+    "pm2": "^4.5.4",
+    "prettier": "^2.2.1",
+    "rimraf": "^3.0.2",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.5"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "body-parser": "^1.19.0",
+    "concurrently": "^5.3.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "node-cron": "^2.0.3",
+    "socket.io": "^3.1.1"
+  }
+}
