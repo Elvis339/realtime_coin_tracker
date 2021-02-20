@@ -1,4 +1,4 @@
-import dotenv from "dotenv";
+import { join } from "path";
 import express, { Application, Router } from "express";
 import http from "http";
 import bodyParser from "body-parser";
@@ -9,8 +9,7 @@ import Socket from "./Core/Services/Socket";
 import { config as appConfig } from "./Config";
 import routes from "./Routes";
 import { execute } from "./Core";
-
-dotenv.config();
+import { Utils } from "./Utils/Utils";
 
 const app: Application = express();
 const router: Router = Router();
@@ -30,7 +29,10 @@ app.use(
 );
 
 if (process.env.NODE_ENV === "production") {
-  console.log("IMPLEMENT...");
+  const root = Utils.getRootPath();
+  app.use(express.static(join(root, "frontend", "build")));
+  app.use("/api", routes(router));
+  app.get("*", (request, response) => response.sendFile(join(root, "frontend", "build", "index.html")));
 } else {
   app.use("/api", routes(router));
 }

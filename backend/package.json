@@ -6,7 +6,7 @@
   "scripts": {
     "start": "concurrently \"npm run dev\" \"cd ../frontend && npm start\"",
     "dev": "cross-env NODE_ENV=development nodemon",
-    "build": "rimraf ./build && tsc",
+    "build": "rimraf ./build && tsc && cd ../frontend && rimraf build && npm run build",
     "prod": "npm run build && cross-env NODE_ENV=production node build/index.js",
     "lint": "eslint . --ext .ts"
   },
@@ -47,7 +47,6 @@
     "express": "^4.17.1",
     "morgan": "^1.10.0",
     "node-cron": "^2.0.3",
-    "oclif": "^1.16.1",
     "socket.io": "^3.1.1"
   }
 }
