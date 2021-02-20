@@ -7,10 +7,11 @@ import { setStatusAction, StatusTypes } from "../actions/statusActions";
 export function* fetchCoins(action: SagaFetchCoinsAction): SagaIterator<void> {
   yield put(setStatusAction(StatusTypes.fetchingCoins, true));
   try {
-    const response = yield call(CoinService.fetchCoins);
+    const response = yield call(CoinService.fetchCoins, action.params);
     yield put(setCoinAction(response));
   } catch (error) {
-    console.error(error);
+    alert("Error happened, reloading...");
+    window.location.reload();
   } finally {
     yield put(setStatusAction(StatusTypes.fetchingCoins, false));
   }

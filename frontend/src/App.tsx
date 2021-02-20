@@ -6,7 +6,7 @@ const App: FC = () => {
   return (
     <Router>
       <Switch>
-        <Route path={"/"} component={Dashboard} />
+        <Route exact={true} path={"/"} component={Dashboard} />
         <Route path={"/coin/:id"} component={SingleCoin} />
       </Switch>
     </Router>

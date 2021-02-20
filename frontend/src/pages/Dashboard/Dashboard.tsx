@@ -1,8 +1,6 @@
-import React, { useContext, useEffect } from "react";
+import React, { useCallback, useContext, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 import { Table } from "antd";
-import { Wrapper } from "./Dashboard.styled";
 
 import {
   sagaFetchCoinsAction,
@@ -12,17 +10,16 @@ import { RootState } from "../../store/reducers/rootReducer";
 import { getMappedCoins, getStatus } from "../../store/selectors";
 import { StatusTypes } from "../../store/actions/statusActions";
 
-import { Loader } from "../../components";
+import { Header, Loader, Name } from "../../components";
 import { SocketContext } from "../../components/SocketContext/SocketContext";
 import { Events } from "../../constants";
-import { Coin } from "../../types";
-import { getCoins } from "../../store/selectors";
+import { Coin, MappedCoins } from "../../types";
+import { Link } from "../../App.styled";
 
 export const Dashboard = () => {
   const { Column } = Table;
   const dispatch = useDispatch();
   const socket: SocketIOClient.Socket = useContext(SocketContext);
-  const history = useHistory();
 
   const isFetching = useSelector((state: RootState) =>
     getStatus(state, StatusTypes.fetchingCoins)
@@ -30,43 +27,41 @@ export const Dashboard = () => {
   const coins = useSelector(getMappedCoins);
 
   useEffect(() => {
-    dispatch(sagaFetchCoinsAction());
+    dispatch(
+      sagaFetchCoinsAction({
+        vs_currency: "usd",
+      })
+    );
 
-    socket.on(Events.updateCoins, (data: any) => {
+    socket.on(Events.updateCoins, (data: Coin[]) => {
       dispatch(setCoinAction(data));
     });
-    return () => {
-      socket.disconnect();
-    };
   }, [dispatch, socket]);
+
+  const renderName = useCallback((text: string, record: MappedCoins) => {
+    const { id, name, symbol, imgSrc } = record;
+
+    return <Name id={id} name={name} symbol={symbol} imgSrc={imgSrc} />;
+  }, []);
+
+  const renderPrice = useCallback((text: string, record: MappedCoins) => {
+    const { id, price } = record;
+
+    return <Link to={`/coin/${id}`}>{`$ ${price}`}</Link>;
+  }, []);
 
   return !isFetching && coins.length > 0 ? (
     <div className="container">
+      <Header />
       <Table
-        // columns={[
-        //   {
-        //     title: "Name",
-        //     dataIndex: "name",
-        //     sorter: (a, b) => a.name.length - b.name.length,
-        //   },
-        // ]}
-        style={{ width: "100%" }}
+        style={{ width: "100%", paddingBottom: "3rem" }}
         rowKey="index"
-        onRow={(record: object, rowIndex: number | undefined) => {
-          return {
-            onClick: (e) => history.push(`coin/${coins[rowIndex || 0].id}`),
-          };
-        }}
         pagination={false}
         dataSource={coins}
       >
         <Column title={"#"} dataIndex={"index"} />
-        <Column title={"Name"} dataIndex={"name"} />
-        <Column
-          title={"Price"}
-          dataIndex={"price"}
-          render={(text) => `$${text}`}
-        />
+        <Column title={"Name"} dataIndex={"name"} render={renderName} />
+        <Column title={"Price"} dataIndex={"price"} render={renderPrice} />
         <Column title={"24h"} dataIndex={"24h"} />
         <Column title={"Market Cap"} dataIndex={"market_cap"} />
         <Column title={"Volume"} dataIndex={"volume"} />

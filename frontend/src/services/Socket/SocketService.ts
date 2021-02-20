@@ -1,10 +1,12 @@
 import io from "socket.io-client";
+import { API } from "../../constants";
 
 export class SocketService {
   private socket: SocketIOClient.Socket | null = null;
 
   connect = () => {
-    return io("http://127.0.0.1:3000");
+    console.log("Socket URL: ", API.SOCKET[process.env.NODE_ENV]);
+    return io(API.SOCKET[process.env.NODE_ENV]);
   };
 
   disconnect = () => {

@@ -1,22 +1,29 @@
 import { Server, ServerOptions } from "socket.io";
 import * as http from "http";
+import { Events } from "../../App/Events";
 let io: Server = null;
 
-export default () => ({
-  connect: (server: http.Server, opts?: ServerOptions) => {
+export interface ISocketService {
+  connect: (server: http.Server, opts?: ServerOptions) => void;
+  emit: (event: Events, values: any) => void;
+  getSocket: () => Server | null;
+  setSocket: (newSocket: Server) => void;
+}
+
+export default (): ISocketService => ({
+  connect: function (server: http.Server, opts?: ServerOptions) {
     io = new Server(server, {
       cors: {
         origin: "*",
       },
     });
   },
-  emit: (event: string, values: any) => {
+  emit: function (event: Events, values: any) {
     if (io) {
-      console.log(`Emitting ${event} - with values of: ${values}`);
       io.sockets.emit(event, values);
       return;
     }
-    console.log(`No io instance!`);
   },
-  getSocketInstance: (): Server | null => io,
+  getSocket: (): Server | null => io,
+  setSocket: (newSocket: Server) => (io = newSocket),
 });

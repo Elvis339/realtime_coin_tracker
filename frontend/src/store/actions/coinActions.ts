@@ -1,4 +1,5 @@
 import { Coin } from "../../types";
+import { CoinRequestParams } from "../../services";
 
 export enum CoinTypes {
   setCoins = "SET_COINS",
@@ -19,9 +20,13 @@ export const setCoinAction = (payload: Coin[]): SetCoinsAction => ({
 
 export interface SagaFetchCoinsAction {
   type: CoinSagaTypes.fetchCoins;
+  params: CoinRequestParams;
 }
-export const sagaFetchCoinsAction = (): SagaFetchCoinsAction => ({
+export const sagaFetchCoinsAction = (
+  params: CoinRequestParams
+): SagaFetchCoinsAction => ({
   type: CoinSagaTypes.fetchCoins,
+  params,
 });
 
 export type CoinActions = SetCoinsAction;

@@ -4,5 +4,11 @@ export const API = {
     production: "http://104.248.45.110/api/",
     test: "",
   },
+  SOCKET: {
+    development: "http://127.0.0.1:5000/",
+    production: "http://104.248.45.110/",
+    test: "",
+  },
   COINS: "coins",
+  SINGLE: "coin/{coinId}",
 };

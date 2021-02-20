@@ -17,3 +17,20 @@ export const fetchCoins = async (request: Request, response: Response): Promise<
     console.error(error);
   }
 };
+
+export const fetchCoinPricesByDate = async (request: Request, response: Response): Promise<void> => {
+  try {
+    const { currency, days, interval } = request.query;
+    const path = "/coins/{id}/market_chart".replace("{id}", request.params.id);
+    const { data } = await client.get(path, {
+      params: {
+        vs_currency: currency ? currency : "usd",
+        days,
+        interval,
+      },
+    });
+    response.status(200).send(data);
+  } catch (error) {
+    console.error(error);
+  }
+};
