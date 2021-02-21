@@ -1,6 +1,7 @@
 import React, { useCallback, useContext, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Table } from "antd";
+import { Breakpoint } from "antd/lib/_util/responsiveObserve";
 
 import {
   sagaFetchCoinsAction,
@@ -58,14 +59,26 @@ export const Dashboard = () => {
         rowKey="index"
         pagination={false}
         dataSource={coins}
+        tableLayout={"fixed"}
       >
-        <Column title={"#"} dataIndex={"index"} />
         <Column title={"Name"} dataIndex={"name"} render={renderName} />
         <Column title={"Price"} dataIndex={"price"} render={renderPrice} />
-        <Column title={"24h"} dataIndex={"24h"} />
-        <Column title={"Market Cap"} dataIndex={"market_cap"} />
-        <Column title={"Volume"} dataIndex={"volume"} />
-        <Column title={"Circulating Supply"} dataIndex={"circulating_supply"} />
+        <Column responsive={["sm"]} title={"24h"} dataIndex={"24h"} />
+        <Column
+          responsive={["sm"]}
+          title={"Market Cap"}
+          dataIndex={"market_cap"}
+        />
+        <Column
+          responsive={["sm", "md"]}
+          title={"Volume"}
+          dataIndex={"volume"}
+        />
+        <Column
+          responsive={["sm", "md"]}
+          title={"Circulating Supply"}
+          dataIndex={"circulating_supply"}
+        />
       </Table>
     </div>
   ) : (

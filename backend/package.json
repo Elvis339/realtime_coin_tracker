@@ -35,7 +35,6 @@
     "nodemon": "^2.0.7",
     "pm2": "^4.5.4",
     "prettier": "^2.2.1",
-    "rimraf": "^3.0.2",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.5"
   },
@@ -47,6 +46,7 @@
     "express": "^4.17.1",
     "morgan": "^1.10.0",
     "node-cron": "^2.0.3",
-    "socket.io": "^3.1.1"
+    "socket.io": "^3.1.1",
+    "rimraf": "^3.0.2"
   }
 }

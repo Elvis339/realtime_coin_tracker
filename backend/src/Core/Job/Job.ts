@@ -3,14 +3,20 @@ import { exec } from "child_process";
 import { Socket } from "socket.io";
 import cron from "node-cron";
 
-import { Utils } from "../../Utils/Utils";
 import { Events } from "../../App/Events";
 import Log from "../Services/Log";
+import { Utils } from "../../Utils/Utils";
 
 const asyncJob = () => {
   return new Promise((resolve, reject) => {
-    const path = join(Utils.getRootPath(), "Scripts", "fetchCoinsCurl");
-    exec(path, (error, stdout, stderr) => {
+    let path = "";
+    if (process.env.NODE_ENV === "development") {
+      path = join(Utils.getRootPath(), "Scripts", "fetchCoinsCurl");
+    } else {
+      path = __dirname.split("build")[0];
+    }
+    const abs_path = join(path, "Scripts", "fetchCoinsCurl");
+    exec(abs_path, (error, stdout, stderr) => {
       if (error !== null) {
         return reject(error);
       }

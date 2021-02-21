@@ -44,8 +44,8 @@ export const DateControls = styled.button`
 
 export const CardWrapper = styled.div`
   box-sizing: border-box;
-  padding: 0 1rem;
-  min-width: 33rem;
+  margin: 2rem 0 5rem 1rem;
+  min-width: 18rem;
 `;
 
 export const CardInner = styled.div`

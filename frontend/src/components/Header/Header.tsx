@@ -18,12 +18,12 @@ export const Header: FC = () => {
   return (
     <Wrapper>
       <Row align="middle" wrap={true}>
-        <Col>
+        <Col span={12}>
           <TextWrapper>
             <h1 style={{ fontSize: "24px" }}>Top Prices by NyanCatTrader</h1>
           </TextWrapper>
         </Col>
-        <Col xs={2} sm={4} md={6} lg={8} xl={10}>
+        <Col span={12}>
           <Carousel autoplay dots={false}>
             {fiveTopCoins.map((coin) => (
               <Card

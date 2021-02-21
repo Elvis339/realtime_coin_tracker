@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import {
-  Wrapper,
   ChartName,
   DateControls,
   CardWrapper,
@@ -21,7 +20,6 @@ import { Row, Col } from "antd";
 import { formatNumber } from "../../utils/numberUtils";
 import { Coin } from "../../types";
 import { Events } from "../../constants";
-import { setCoinAction } from "../../store/actions/coinActions";
 import { SocketContext } from "../../components/SocketContext/SocketContext";
 
 interface SingleCoinNavigationParams {
@@ -79,15 +77,15 @@ export const SingleCoin = () => {
       return [
         {
           title: "Price",
-          data: `$ ${formatNumber(coin.current_price, 3)}`,
+          data: ` $${formatNumber(coin.current_price, 3)}`,
         },
         {
           title: "Price Change",
-          data: `$ ${formatNumber(coin.price_change_24h, 3)}`,
+          data: ` $${formatNumber(coin.price_change_24h, 3)}`,
         },
         {
           title: "Trading Volume",
-          data: `$ ${formatNumber(coin.total_volume, 3)}`,
+          data: ` $${formatNumber(coin.total_volume, 3)}`,
         },
       ];
     }
@@ -99,7 +97,7 @@ export const SingleCoin = () => {
 
   return !loading && coin ? (
     <div className={"container"}>
-      <Row style={{ margin: "1rem 0" }}>
+      <Row wrap={true} style={{ margin: "1rem 0" }}>
         <Col>
           <ChartName>{coin?.name} Chart</ChartName>
           <Row justify="end">
@@ -110,7 +108,7 @@ export const SingleCoin = () => {
           </Row>
           <Chart data={data} />
         </Col>
-        <Col span={6}>
+        <Col>
           <CardWrapper>
             <CardInner>
               <CardHeaderWrapper>

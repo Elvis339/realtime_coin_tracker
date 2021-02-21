@@ -29,7 +29,7 @@ app.use(
 );
 
 if (process.env.NODE_ENV === "production") {
-  const root = Utils.getRootPath();
+  const root = __dirname.split("backend")[0];
   app.use(express.static(join(root, "frontend", "build")));
   app.use("/api", routes(router));
   app.get("*", (request, response) => response.sendFile(join(root, "frontend", "build", "index.html")));
