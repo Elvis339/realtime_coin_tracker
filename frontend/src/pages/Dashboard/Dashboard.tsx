@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { Table } from "antd";
-import { Breakpoint } from "antd/lib/_util/responsiveObserve";
 
 import {
   sagaFetchCoinsAction,
@@ -21,6 +21,7 @@ export const Dashboard = () => {
   const { Column } = Table;
   const dispatch = useDispatch();
   const socket: SocketIOClient.Socket = useContext(SocketContext);
+  const history = useHistory();
 
   const isFetching = useSelector((state: RootState) =>
     getStatus(state, StatusTypes.fetchingCoins)
@@ -46,20 +47,26 @@ export const Dashboard = () => {
   }, []);
 
   const renderPrice = useCallback((text: string, record: MappedCoins) => {
-    const { id, price } = record;
+    const { price } = record;
 
-    return <Link to={`/coin/${id}`}>{`$ ${price}`}</Link>;
+    return `$ ${price}`;
   }, []);
 
   return !isFetching && coins.length > 0 ? (
     <div className="container">
       <Header />
       <Table
+        className={"coinTable"}
         style={{ width: "100%", paddingBottom: "3rem" }}
         rowKey="index"
         pagination={false}
         dataSource={coins}
         tableLayout={"fixed"}
+        onRow={(record: MappedCoins) => {
+          return {
+            onClick: (event) => history.push(`coin/${record.id}`),
+          };
+        }}
       >
         <Column title={"Name"} dataIndex={"name"} render={renderName} />
         <Column title={"Price"} dataIndex={"price"} render={renderPrice} />

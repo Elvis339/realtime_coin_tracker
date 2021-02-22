@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -18,16 +18,12 @@ import { Chart, Loader } from "../../components";
 import { CoinService } from "../../services";
 import { Row, Col } from "antd";
 import { formatNumber } from "../../utils/numberUtils";
-import { Coin } from "../../types";
-import { Events } from "../../constants";
-import { SocketContext } from "../../components/SocketContext/SocketContext";
 
 interface SingleCoinNavigationParams {
   id: string;
 }
 
 export const SingleCoin = () => {
-  const socket: SocketIOClient.Socket = useContext(SocketContext);
   const { id } = useParams<SingleCoinNavigationParams>();
   const coin = useSelector(makeGetCoinById(id));
 
@@ -66,12 +62,6 @@ export const SingleCoin = () => {
     };
   }, [id]);
 
-  useEffect(() => {
-    socket.on(Events.updateCoins, (data: Coin[]) => {
-      console.log("Refreshing...");
-    });
-  });
-
   const mapAdditionalData = useMemo(() => {
     if (coin) {
       return [
@@ -92,7 +82,9 @@ export const SingleCoin = () => {
   }, [coin]);
 
   if (error) {
-    return <h3>ERROR!</h3>;
+    alert("Error happened, reloading...");
+    window.location.reload();
+    return <h3>Error</h3>;
   }
 
   return !loading && coin ? (
