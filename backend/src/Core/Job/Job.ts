@@ -13,10 +13,10 @@ const asyncJob = () => {
     if (process.env.NODE_ENV === "development") {
       path = join(Utils.getRootPath(), "Scripts", "fetchCoinsCurl");
     } else {
-      path = __dirname.split("build")[0];
+      const root = __dirname.split("build")[0];
+      path = join(root, "src", "Scripts", "fetchCoinsCurl");
     }
-    const abs_path = join(path, "Scripts", "fetchCoinsCurl");
-    exec(abs_path, (error, stdout, stderr) => {
+    exec(path, (error, stdout, stderr) => {
       if (error !== null) {
         return reject(error);
       }

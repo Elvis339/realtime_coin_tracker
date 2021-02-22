@@ -1,7 +1,7 @@
 export const config = {
   production: {
-    url: "",
-    port: 5000,
+    url: "104.248.45.110",
+    port: 3000,
     debug: false,
   },
   development: {
